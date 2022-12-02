@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+wenv/
 
 # Spyder project settings
 .spyderproject
@@ -127,3 +128,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# advent of code stuff
+**/test1.txt
+**/test2.txt
+**/test3.txt
+**/input.txt
