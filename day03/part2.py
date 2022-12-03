@@ -5,10 +5,10 @@ from functools import partial, reduce
 
 uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-def generate_group_indices(base_index):
-	start = base_index * 3
+def generate_group_indices(base_index, group_size):
+	start = base_index * group_size
 
-	return start, start + 1, start + 2
+	return tuple(range(start, group_size + start))
 
 def evaluate_group(source, group_indices):
 	groups = [set(source[i]) for i in group_indices]
@@ -24,13 +24,16 @@ def evaluate_group(source, group_indices):
 
 	return priority
 
-def main(infn):
+def main(infn, group_size):
 	with open(infn, 'r') as f:
 		source = [str.strip(l) for l in f.readlines()]
 
-	group_count = int(len(source) / 3)
+	if not len(source) % group_size == 0:
+		raise ValueError("Source length is not a multiple of group_size")
 
-	indices = (generate_group_indices(i) for i in range(group_count))
+	group_count = int(len(source) / group_size)
+
+	indices = (generate_group_indices(i, group_size) for i in range(group_count))
 
 	func = partial(evaluate_group, source)
 
@@ -41,5 +44,5 @@ def main(infn):
 	print(result)
 
 if __name__ == '__main__':
-	main('test1.txt')
-	main('input.txt')
+	main('test1.txt', 3)
+	main('input.txt', 3)
