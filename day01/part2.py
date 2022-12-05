@@ -1,27 +1,23 @@
 # part2.py
 
+import itertools
+
 
 def parse_list(source):
-	result = {}
-	index = 0
-	result[0] = []
+	source = (int(i) if not i == '' else 0 for i in source)
 
-	for line in source:
-		if line == '':
-			index += 1
-			result[index] = []
-		else:
-			result[index].append(int(line))
+	elves = itertools.groupby(source, key=lambda x: x == 0)
+	elves = (list(e) for i, e in elves if not i)
 
-	return result
+	return elves
 
 def main(infn):
 	with open(infn, 'r') as f:
-		lines = [str.strip(l) for l in f.readlines()]
+		lines = (str.strip(l) for l in f.readlines())
 
 	data = parse_list(lines)
 
-	totals = sorted([sum(data[e]) for e in data], reverse=True)
+	totals = sorted([sum(e) for e in data], reverse=True)
 
 	result = sum(totals[:3])
 
