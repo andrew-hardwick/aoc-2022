@@ -2,14 +2,8 @@
 
 import itertools
 
+from part1 import parse_list
 
-def parse_list(source):
-	source = (int(i) if not i == '' else 0 for i in source)
-
-	elves = itertools.groupby(source, key=lambda x: x == 0)
-	elves = (list(e) for i, e in elves if not i)
-
-	return elves
 
 def main(infn):
 	with open(infn, 'r') as f:

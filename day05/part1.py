@@ -24,6 +24,7 @@ def parse_input(lines):
 
 	for board_row in board_source:
 		parsed_row = [board_row[(i * 4) + 1] for i in range(board_count)]
+
 		for i in range(board_count):
 			if not parsed_row[i] == ' ':
 				board[i].append(parsed_row[i])
