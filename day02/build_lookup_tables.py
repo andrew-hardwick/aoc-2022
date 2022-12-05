@@ -24,13 +24,14 @@ def main():
 
     games = [(f'{e1} {e2}', score_part_1(e1, e2), score_part_2(e1, e2)) for e1, e2 in itertools.product(l1, l2)]
 
+    part1_lookup = [f'{game},{p1}' for game, p1, p2 in games]
+    part2_lookup = [f'{game},{p2}' for game, p1, p2 in games]
+
     with open('part_1_lookup', 'w') as f:
-        for game, p1, p2 in games:
-            f.write(f'{game},{p1}\n')
+        f.write('\n'.join(part1_lookup))
 
     with open('part_2_lookup', 'w') as f:
-        for game, p1, p2 in games:
-            f.write(f'{game},{p2}\n')
+        f.write('\n'.join(part2_lookup))
 
 if __name__ == '__main__':
     main()
