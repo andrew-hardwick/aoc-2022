@@ -2,9 +2,9 @@
 
 
 def find_first_unique_set(data, window_length):
-	for i, w_s in enumerate(range(len(data) - (window_length - 1))):
+	for w_s in range(len(data) - (window_length - 1)):
 		if len(set(data[w_s:w_s + window_length])) == window_length:
-			return i + window_length
+			return w_s + window_length
 
 	return -1
 
