@@ -28,13 +28,17 @@ def model_rope_link_step(h_x, h_y, t_x, t_y):
 
 	return n_t_x, n_t_y
 
-def simulate(moves):
-	h_x = 0
-	h_y = 0
-	t_x = 0
-	t_y = 0
+def model_full_rope_step(rope, rope_length):
+	for i in range(rope_length - 1):
+		h_x, h_y = rope[i]
+		t_x, t_y = rope[i + 1]
 
-	tail_pos_history = [(t_x, t_y)]
+		rope[i + 1] = model_rope_link_step(h_x, h_y, t_x, t_y)
+
+def simulate(moves, rope_length):
+	rope = [(0, 0) for _ in range(rope_length)]
+
+	tail_pos_history = [(0, 0)]
 
 	dirs = {'R': (1, 0), 'L':(-1, 0), 'U': (0, 1), 'D': (0, -1)}
 
@@ -42,23 +46,27 @@ def simulate(moves):
 		d_x, d_y = dirs[direction]
 
 		for u in range(distance):
-			h_x = h_x + d_x
-			h_y = h_y + d_y
+			h_x, h_y = rope[0]
 
-			t_x, t_y = model_rope_link_step(h_x, h_y, t_x, t_y)
+			n_h_x = h_x + d_x
+			n_h_y = h_y + d_y
 
-			tail_pos_history.append((t_x, t_y))
+			rope[0] = (n_h_x, n_h_y)
+
+			model_full_rope_step(rope, rope_length)
+
+			tail_pos_history.append(rope[-1])
 
 	return tail_pos_history
 
-def main(infn):
+def main(infn, rope_length):
 	with open(infn, 'r') as f:
 		moves = [parse_line(l) for l in f.readlines()]
 
-	states = simulate(moves)
+	states = simulate(moves, rope_length)
 
 	print(len(set(states)))
 
 if __name__ == '__main__':
-	main('test1.txt')
-	main('input.txt')
+	main('test1.txt', 2)
+	main('input.txt', 2)
