@@ -28,11 +28,9 @@ class machine_t():
 
 	def _handle_instruction(self, instr):
 		if instr[0] == 'noop':
-			#print('noop')
 			return
 
 		if instr[0] == 'addx':
-			#print(instr[0], instr[1])
 			self._prior_active = 1
 			self._waiting = True
 			self._reg_x_waiting = self._reg_x +  int(instr[1])
